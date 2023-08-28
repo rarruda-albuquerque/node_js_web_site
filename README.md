@@ -1,4 +1,4 @@
-## Welcome to {app.name} website
+## Welcome to {app.name} website!
 
 ### Installation
 
