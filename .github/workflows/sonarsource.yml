@@ -43,10 +43,10 @@ jobs:
         method: 'POST'
         username: ${{ secrets.SONAR_TOKEN }}
         customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
-        data: '{"project": "value_1", "organization": "value_2","name": "value_2"}'
+        data: '{"project": "${{ inputs.project-name }}", "organization": "${{ inputs.organization }}","name": "${{ inputs.github-repo }}"}'
     - name: Show Response
       run: |
         echo ${{ steps.step1.outputs.response }}
         echo ${{ steps.step1.outputs.headers }}
-        echo ${{ fromJson(steps.step1.outputs.response).results[0].name.first }}
-        echo ${{ fromJson(steps.step1.outputs.response).results[0].location.country }}
+        echo ${{ fromJson(steps.step1.outputs.response).project.key }}
+        echo ${{ fromJson(steps.step1.outputs.response).project.name }}
