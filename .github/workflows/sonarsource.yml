@@ -1,22 +1,12 @@
-name: REST API Manual Workflow
+name: Sonarsource Workflow
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   workflow_dispatch:
     # Inputs the workflow accepts.
-    inputs:
-      nationality:
-        # nationality of a randomuser
-        description: 'Nationality of a randomuser (AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IN, IR, MX, NL, NO, NZ, RS, TR, UA, US)'
-        # Input has to be provided for the workflow to run
-        required: true
-        # The data type of the input
-        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  call-api:
+  create:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -27,12 +17,11 @@ jobs:
       id: step1
       uses: fjogeleit/http-request-action@v1
       with:
-        url: "https://randomuser.me/api/?nat=${{ inputs.nationality }}"
-        method: 'GET'
-        username: ${{ secrets.AWX_USER }}
-        password: ${{ secrets.AWX_PASSWORD }}
-        customHeaders: '{"Content-Type": "application/json"}'
-        data: '{"key_1": "value_1", "key_2": "value_2"}'
+        url: "https://sonarcloud.io/api/projects/create"
+        method: 'POST'
+        username: ${{ secrets.SONAR_TOKEN }}
+        customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
+        data: '{"project": "value_1", "organization": "value_2","name": "value_2"}'
     - name: Show Response
       run: |
         echo ${{ steps.step1.outputs.response }}
