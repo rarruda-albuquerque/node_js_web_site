@@ -34,4 +34,17 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
+      id: step1
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: "https://random-data-api.com/api/users/random_user"
+        method: 'POST'
+        username: ${{ secrets.AWX_USER }}
+        password: ${{ secrets.AWX_PASSWORD }}
+        customHeaders: '{"Content-Type": "application/json"}'
+        data: '{"key_1": "value_1", "key_2": "value_2"}'
+    - name: Show Response
+      run: |
+        echo ${{ steps.step1.outputs.response }}
+        echo ${{ steps.step1.outputs.headers }}
+        echo ${{ fromJson(steps.step1.outputs.response).uid }}
