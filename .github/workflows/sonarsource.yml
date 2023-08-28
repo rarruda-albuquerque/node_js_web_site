@@ -25,7 +25,7 @@ jobs:
     steps:
     - name: Call REST API
       run: |
-        curl -X GET "https://random-data-api.com/api/users/random_user"
+        curl -X GET "https://randomuser.me/api/"
   delete:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
       id: step1
       uses: fjogeleit/http-request-action@v1
       with:
-        url: "https://random-data-api.com/api/users/random_user"
+        url: "https://randomuser.me/api/"
         method: 'GET'
         username: ${{ secrets.AWX_USER }}
         password: ${{ secrets.AWX_PASSWORD }}
@@ -47,4 +47,4 @@ jobs:
       run: |
         echo ${{ steps.step1.outputs.response }}
         echo ${{ steps.step1.outputs.headers }}
-        echo ${{ fromJson(steps.step1.outputs.response).uid }}
+        echo ${{ fromJson(steps.step1.outputs.response).results[0].gender }}
