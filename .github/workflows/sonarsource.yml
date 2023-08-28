@@ -27,7 +27,7 @@ jobs:
       id: step1
       uses: fjogeleit/http-request-action@v1
       with:
-        url: "https://randomuser.me/api/"
+        url: "https://randomuser.me/api/?nat=${{ inputs.nationality }}"
         method: 'GET'
         username: ${{ secrets.AWX_USER }}
         password: ${{ secrets.AWX_PASSWORD }}
@@ -38,3 +38,4 @@ jobs:
         echo ${{ steps.step1.outputs.response }}
         echo ${{ steps.step1.outputs.headers }}
         echo ${{ fromJson(steps.step1.outputs.response).results[0].name.first }}
+        echo ${{ fromJson(steps.step1.outputs.response).results[0].location.country }}
