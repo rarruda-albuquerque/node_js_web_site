@@ -13,6 +13,7 @@ const staticFiles = path.join(__dirname, "../public");
 app.use(express.static(staticFiles));
 
 console.log(`serving static files from ${staticFiles}`);
+console.log('running');
 
 // sendFile will go here
 app.get("/", function (req, res) {
